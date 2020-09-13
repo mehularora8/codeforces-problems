@@ -10,7 +10,7 @@ int binarySearch(int arr[], int l, int r, int target)
     if (r > l + 1) { 
         int mid = (r + l) / 2; 
   
-        if (arr[mid] <= target)  return binarySearch(arr, mid, r, target); 
+        if (arr[mid] < target)  return binarySearch(arr, mid, r, target); 
         
         else return binarySearch(arr, l, mid, target); 
     }
