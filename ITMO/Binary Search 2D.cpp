@@ -4,34 +4,26 @@ using namespace std;
 
 int k, n;
 vector<vector<int>> a;
-vector<int> numBalloonsFinished;
 
-bool good(long long m){
+bool good(long long m, bool print){
 	int s = 0;
-	vector<int> balloonsForThisTime;
-	balloonsForThisTime.resize(n);
 	
 	for(int i = 0; i < n; i++){
 		vector<int> values = a[i];
+		int ans;
 		
 		if (m <= values[0] * values[1]){
-			int ans = m / values[0];
-			balloonsForThisTime[i] = ans;
+			ans = m / values[0];
 			s += ans;
 		} else if ((values[0] * values[1]) < m && m <= ((values[0] * values[1]) + values[2])){
-			int ans = values[1];
-			balloonsForThisTime[i] = ans;
+			ans = values[1];
 			s += ans;
 		} else {
-			int ans = (m / ((values[0] * values[1]) + values[2])) * values[1] + ((m % ((values[0] * values[1]) + values[2])) / values[0]);
-			
-			balloonsForThisTime[i] = ans;
+			ans = (m / ((values[0] * values[1]) + values[2])) * values[1] + ((m % ((values[0] * values[1]) + values[2])) / values[0]);
 			s += ans;
 		}
-	}
-	
-	if (s >= k){
-		numBalloonsFinished = balloonsForThisTime;
+		
+		if(print) cout << ans << " ";
 	}
 	
 	return s >= k;
@@ -42,7 +34,6 @@ int main() {
 	cin >> k >> n;
 	
 	a.resize(n);
-	numBalloonsFinished.resize(n);
 	
 	for(int i = 0 ; i < n; i ++){
 		vector<int> b;
@@ -59,7 +50,7 @@ int main() {
 	while(r > l + 1){
 		long long m = (l + r) / 2;
 		
-		if (good(m)){
+		if (good(m, false)){
 			r = m;
 		} else {
 			l = m;
@@ -67,10 +58,7 @@ int main() {
 	}
 	
 	cout << r << endl;
-	
-	for(int i = 0; i < n; i++){
-		cout << numBalloonsFinished[i] << " ";
-	}
+	good(r, true);
 	
 	return 0;
 }
